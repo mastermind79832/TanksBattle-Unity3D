@@ -21,7 +21,6 @@ public class TankController
 		if (direction == Vector3.zero)
 			return;
 
-		//m_view.transform.position += m_model.GetSpeed() * Time.deltaTime * new Vector3(direction.x,0,direction.y);
 		m_view.GetRigidbody().rotation = Quaternion.LookRotation(direction);
 		m_view.GetRigidbody().velocity = m_view.transform.forward * m_model.GetSpeed();
 	}
