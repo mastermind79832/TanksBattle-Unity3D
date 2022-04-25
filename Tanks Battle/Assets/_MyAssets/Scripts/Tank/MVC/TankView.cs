@@ -37,7 +37,6 @@ public class TankView : MonoBehaviour
     private void MoveTank()
 	{
         m_controller.Movement();
-
     }
 
     void FixedUpdate() => onFixedUpdate?.Invoke();
