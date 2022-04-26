@@ -17,16 +17,17 @@ public class TankController
 
 	public void Movement()
 	{
-		Vector3 direction = m_view.GetMoveDirection();
-		if (direction == Vector3.zero)
+		Vector3? direction = m_view.GetMoveDirection();
+		if (direction == null)
 			return;
 
-		m_view.GetRigidbody().rotation = Quaternion.LookRotation(direction);
+		m_view.GetRigidbody().rotation = Quaternion.LookRotation((Vector3)direction);
 		m_view.GetRigidbody().velocity = m_view.transform.forward * m_model.GetSpeed();
 	}
 
-	public void FireBullet()
+	public void FireBullet(float velocity)
 	{
-
+		ShellScript shell = ShellFactory.Instance.CreateBullet(m_view.firePoint);
+		shell.SetVelocity(velocity);
 	}
 }

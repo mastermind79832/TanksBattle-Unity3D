@@ -4,22 +4,22 @@ using UnityEngine.UI;
 public class TankView : MonoBehaviour
 {
     protected TankController m_controller;
-    protected Vector3 m_moveDirection;
+    protected Vector3? m_moveDirection;
 
     public Image healthBar;
     public Rigidbody rb;
+    public Transform firePoint;
 
     public delegate void OnUpdate();
     protected OnUpdate onUpdate;
-    public delegate void OnFixedUpdate();
-    protected OnFixedUpdate onFixedUpdate;
+    protected OnUpdate onFixedUpdate;
 
     //Setter
     public void SetTankController(TankController controller) => m_controller = controller;
     public void SetHealthBar(float value) => healthBar.fillAmount = value;
 
     //Getter
-    public Vector3 GetMoveDirection() => m_moveDirection;
+    public Vector3? GetMoveDirection() => m_moveDirection;
     public Rigidbody GetRigidbody() => rb;
 
 	protected virtual void OnEnable()
@@ -40,6 +40,5 @@ public class TankView : MonoBehaviour
     }
 
     void FixedUpdate() => onFixedUpdate?.Invoke();
-    void Update() => onUpdate?.Invoke();
-    
+    void Update() => onUpdate?.Invoke();   
 }

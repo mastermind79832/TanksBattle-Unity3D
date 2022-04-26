@@ -9,7 +9,6 @@ public class ShellScript : MonoBehaviour
 	public Rigidbody rb;
 	public float shellLifeTime = 5f;
 
-
 	private void Start()
 	{
 		Invoke(nameof(Explode), shellLifeTime);
@@ -17,14 +16,22 @@ public class ShellScript : MonoBehaviour
 
 	private void Explode()
 	{
+		SetOffExplosion();
+		Destroy(gameObject);
+	}
+
+	public void SetVelocity(float velocity) => rb.velocity = velocity * transform.forward;
+
+	private void SetOffExplosion()
+	{
 		explosion.transform.SetParent(null);
-		explosion.transform.position = transform.position;
-		explosion.transform.rotation = Quaternion.Euler(-90,0,0);
+		explosion.transform.SetPositionAndRotation(transform.position, Quaternion.Euler(-90, 0, 0));
+
 		explosion.Play();
 		source.Play();
-		Destroy(explosion.gameObject, 
+
+		Destroy(explosion.gameObject,
 			Mathf.Max(explosion.main.duration, source.clip.length));
-		Destroy(gameObject);
 	}
 
 	private void Update()
@@ -32,8 +39,6 @@ public class ShellScript : MonoBehaviour
 		transform.forward = rb.velocity;
 	}
 
-	private void OnCollisionEnter(Collision collision)
-	{
-		Explode();
-	}
+	private void OnCollisionEnter(Collision collision) => Explode();
+
 }
