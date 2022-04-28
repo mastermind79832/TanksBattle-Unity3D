@@ -7,7 +7,7 @@ public class ShellScript : MonoBehaviour
 {
     public ParticleSystem explosion;
 	public AudioSource source;
-	public Rigidbody rb;
+	public Rigidbody shellBody;
 	public float maxVelocity = 20f;	
 	public float shellLifeTime = 5f;
 	public float explosionRadius = 5f;
@@ -22,26 +22,28 @@ public class ShellScript : MonoBehaviour
 		Invoke(nameof(Explode), shellLifeTime);
 	}
 	//Setter
-	public void SetVelocity(float multiplier) => rb.velocity = multiplier * maxVelocity * transform.forward;
+	public void SetVelocity(float multiplier) => shellBody.velocity = multiplier * maxVelocity * transform.forward;
 	private void Explode()
 	{
-		SetDamageToNearbyTanks();
+		GiveDamageToNearbyDamageable();
 		SetOffExplosion();
 		Destroy(gameObject);
 	}
 
-	private void SetDamageToNearbyTanks()
+	private void GiveDamageToNearbyDamageable()
 	{
 		// Finds all tanks in the overlapsed radius
 		Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius, tankMask);
 
 		for (int i = 0; i < colliders.Length; i++)
 		{
-			TankView tankView = colliders[i].GetComponent<TankView>();
-			if (tankView != null)
+			IDamageable damageable = colliders[i].GetComponent<IDamageable>();
+			if (damageable != null)
 			{
-				tankView.GetRigidbody().AddExplosionForce(explosionForce,transform.position,explosionRadius);
-				tankView.TakeDamage(CalcualteDamage(tankView.transform.position));
+				damageable.TakeDamage(CalcualteDamage(colliders[i].transform.position));
+				Rigidbody rb = colliders[i].GetComponent<Rigidbody>();
+				if(rb != null)
+					rb.AddExplosionForce(explosionForce,transform.position,explosionRadius);
 			}
 		}
 	}
@@ -52,6 +54,8 @@ public class ShellScript : MonoBehaviour
 		float explosionDist = (tankPos - transform.position).magnitude;
 		float unitDist = (explosionRadius - explosionDist) / explosionRadius;
 		float damage = unitDist * maxDamage;
+		if(damage < 0)
+			damage = 0;
 		return damage;
 	}
 
@@ -70,7 +74,7 @@ public class ShellScript : MonoBehaviour
 
 	private void Update()
 	{
-		transform.forward = rb.velocity;
+		transform.forward = shellBody.velocity;
 	}
 
 	private void OnCollisionEnter(Collision collision) => Explode();

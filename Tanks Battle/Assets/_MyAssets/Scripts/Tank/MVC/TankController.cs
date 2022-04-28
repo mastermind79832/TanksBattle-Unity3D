@@ -32,6 +32,7 @@ public class TankController
 	public void TakeDamage(float value)
 	{
 		m_Model.currentHealth -= value;
+		Debug.Log(m_Model.currentHealth);
 		m_View.SetHealthBar(m_Model.currentHealth / m_Model.GetMaxHealth());
 
 		if(m_Model.currentHealth <= 0)

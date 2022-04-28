@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TankView : MonoBehaviour
+public class TankView : MonoBehaviour, IDamageable
 {
     protected TankController m_controller;
     protected Vector3? m_moveDirection;
@@ -35,6 +35,7 @@ public class TankView : MonoBehaviour
     public Vector3? GetMoveDirection() => m_moveDirection;
     public Rigidbody GetRigidbody() => rb;
 
+    // Interface
     public void TakeDamage(float value) => m_controller.TakeDamage(value);
 
     public void PlayerDead()

@@ -131,10 +131,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosion: {fileID: 2185634519216740857}
   source: {fileID: 1032480985}
-  rb: {fileID: 122702627824362091}
+  shellBody: {fileID: 122702627824362091}
+  maxVelocity: 20
   shellLifeTime: 5
   explosionRadius: 5
   explosionForce: 2000
+  maxDamage: 5
   tankMask:
     serializedVersion: 2
     m_Bits: 64

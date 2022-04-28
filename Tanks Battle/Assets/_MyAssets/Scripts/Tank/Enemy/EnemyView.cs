@@ -8,4 +8,5 @@ public class EnemyView : TankView
 	{
 		m_moveDirection = Vector3.forward;
 	}
+
 }
