@@ -23,7 +23,7 @@ public class TankFactory : MonoBehaviour
 
 	private void SpawnPlayer()
 	{
-		new TankController(playerTankPrefab, tankTypes[0], playerSpawn.position);
+		new PlayerController(playerTankPrefab, tankTypes[Random.Range(0,tankTypes.Count)], playerSpawn.position);
 	}
 	
 	public void SpawnEnemy()

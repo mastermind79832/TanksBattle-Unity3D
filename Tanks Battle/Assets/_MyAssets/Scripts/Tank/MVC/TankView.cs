@@ -6,39 +6,43 @@ public class TankView : MonoBehaviour
     protected TankController m_controller;
     protected Vector3? m_moveDirection;
 
+    [Header("Explosion")]
+    public ParticleSystem explosion;
+    public AudioSource explosionAudio;
+    
+    [Header("Health")]
     public Image healthBar;
-    public Rigidbody rb;
-    public Transform firePoint;
 
-    public delegate void OnUpdate();
-    protected OnUpdate onUpdate;
-    protected OnUpdate onFixedUpdate;
+    [Header("Componenets")]
+    public Rigidbody rb;
+    public MeshRenderer[] meshs;
+
+    [Header("Firing")]
+    public Transform firePoint;
 
     //Setter
     public void SetTankController(TankController controller) => m_controller = controller;
     public void SetHealthBar(float value) => healthBar.fillAmount = value;
+    public void SetMaterial(Material mat)
+    {
+		for (int i = 0; i < meshs.Length; i++)
+		{
+            meshs[i].material = mat;
+        }
+    }
 
     //Getter
     public Vector3? GetMoveDirection() => m_moveDirection;
     public Rigidbody GetRigidbody() => rb;
 
-	protected virtual void OnEnable()
+    public void TakeDamage(float value) => m_controller.TakeDamage(value);
+
+    public void PlayerDead()
 	{
-        onFixedUpdate += MoveTank;
-        print("Added");
+        explosion.transform.SetParent(null);
+        explosion.Play();
+        explosionAudio.Play();
+        Destroy(explosion.gameObject, Mathf.Max(explosion.main.duration, explosionAudio.clip.length));
+        Destroy(gameObject);
 	}
-
-	protected virtual void OnDisable()
-	{
-        onFixedUpdate -= MoveTank;
-        print("removed fixed");
-    }
-
-    private void MoveTank()
-	{
-        m_controller.Movement();
-    }
-
-    void FixedUpdate() => onFixedUpdate?.Invoke();
-    void Update() => onUpdate?.Invoke();   
 }

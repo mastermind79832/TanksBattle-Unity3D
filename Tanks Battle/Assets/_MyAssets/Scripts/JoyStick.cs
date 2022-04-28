@@ -10,13 +10,13 @@ public class JoyStick : MonoSingletonGeneric<JoyStick>
     public RectTransform joyHead;
 
 	public Button fireButton;
+	public bool isFirePressed;
 	private bool m_IsMouseOverAnything;
 
     private Vector3 m_InitalJoyPos;
     private Vector3 m_FirstTouchPos;
     private Vector3 m_DragPos;
 	private bool b_isFirstTouched = false;
-
 
 	public Vector3? DragDirection { get; private set; }
 
@@ -30,6 +30,7 @@ public class JoyStick : MonoSingletonGeneric<JoyStick>
     }
 
 	public void SetMouseOverAnything(bool enabled) => m_IsMouseOverAnything = enabled;
+	public void SetFirePressed(bool enabled) => isFirePressed = enabled;
 
 	private void TouchInput()
 	{

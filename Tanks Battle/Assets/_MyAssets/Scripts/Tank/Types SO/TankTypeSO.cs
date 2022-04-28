@@ -24,4 +24,7 @@ public class TankTypeSO : ScriptableObject
 
     [Header("Drops")]
     public float points;
+
+    [Header("material")]
+    public Material color;
 }

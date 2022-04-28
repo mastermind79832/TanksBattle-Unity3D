@@ -18,3 +18,4 @@ MonoBehaviour:
   damage: 20
   range: 20
   points: 50
+  color: {fileID: 2100000, guid: 12c120f2400576c4f97a98bcca5529bc, type: 2}
