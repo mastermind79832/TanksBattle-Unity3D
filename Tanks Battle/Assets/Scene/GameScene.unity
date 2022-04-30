@@ -1440,7 +1440,8 @@ MonoBehaviour:
   playerTankPrefab: {fileID: 4960200313668520487, guid: 56df955e04f54854ea9d46108f06f8e4,
     type: 3}
   playerSpawn: {fileID: 388996042}
-  enemyTank: {fileID: 0}
+  enemyTank: {fileID: 4994087914430836887, guid: 773d7346642452646aa2b1db5336e447,
+    type: 3}
   enemySpawn:
   - {fileID: 225824528}
   - {fileID: 1769935558}
