@@ -3,31 +3,41 @@ using UnityEngine;
 
 public class TankController
 {
-	private TankView m_view;
-	private	TankModel m_model;
+	private readonly TankView m_View;
+	private readonly TankModel m_Model;
 
 	public TankController (TankView tankView, TankTypeSO typeSO, Vector3 spawnPoint)
 	{
-		m_view = Object.Instantiate(tankView);
-		m_view.transform.position = spawnPoint;
-		m_view.SetTankController(this);
+		m_Model = new TankModel(typeSO);
 
-		m_model = new TankModel(typeSO,this);
+		m_View = Object.Instantiate(tankView);
+		m_View.transform.position = spawnPoint;
+		m_View.SetTankController(this);
+		m_View.SetMaterial(m_Model.GetColor());
 	}
 
-	public void Movement()
+	public virtual void Movement(Vector3? direction)
 	{
-		Vector3 direction = m_view.GetMoveDirection();
-		if (direction == Vector3.zero)
-			return;
-
-		//m_view.transform.position += m_model.GetSpeed() * Time.deltaTime * new Vector3(direction.x,0,direction.y);
-		m_view.GetRigidbody().rotation = Quaternion.LookRotation(direction);
-		m_view.GetRigidbody().velocity = m_view.transform.forward * m_model.GetSpeed();
+		m_View.GetRigidbody().rotation = Quaternion.LookRotation((Vector3)direction);
+		m_View.GetRigidbody().velocity = m_View.transform.forward * m_Model.GetSpeed();
 	}
 
-	public void FireBullet()
+	public void FireBullet(float velocityMutiplier)
 	{
+		ShellScript shell = ShellFactory.Instance.CreateBullet(m_View.firePoint);
+		shell.maxDamage = m_Model.GetDamage();
+		shell.SetVelocity(velocityMutiplier);
+	}
 
+	public void TakeDamage(float value)
+	{
+		m_Model.currentHealth -= value;
+		Debug.Log(m_Model.currentHealth);
+		m_View.SetHealthBar(m_Model.currentHealth / m_Model.GetMaxHealth());
+
+		if(m_Model.currentHealth <= 0)
+		{
+			m_View.PlayerDead();
+		}
 	}
 }

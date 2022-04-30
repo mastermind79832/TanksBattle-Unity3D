@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64202a9853c1fd34fb52b6dd762ea23c, type: 3}
-  m_Name: NormalType
+  m_Name: HeavyType
   m_EditorClassIdentifier: 
-  tankType: 0
-  maxHealth: 10
-  speed: 10
-  damage: 20
-  range: 20
+  tankType: 1
+  maxHealth: 20
+  speed: 8
+  damage: 25
+  range: 15
   points: 50
-  color: {fileID: 2100000, guid: 12c120f2400576c4f97a98bcca5529bc, type: 2}
+  color: {fileID: 2100000, guid: 463052f3f7389124f9e7b34b0b931d0d, type: 2}

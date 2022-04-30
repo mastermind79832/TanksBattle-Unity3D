@@ -1,16 +1,17 @@
+using UnityEngine;
 public class TankModel 
 {
-	private TankController m_controller;
-	private readonly TankTypeSO m_type;
-	private float m_currentHealth;
+	public TankTypeSO m_type;
+	public float currentHealth;
 
-	public TankModel(TankTypeSO typeSO, TankController controller)
+	public TankModel(TankTypeSO typeSO)
 	{
 		m_type = typeSO;
-		m_controller = controller;
-
-		m_currentHealth = m_type.maxHealth;
+		currentHealth = m_type.maxHealth;
 	}
 
 	public float GetSpeed() => m_type.speed;
+	public Material GetColor() => m_type.color;
+	public float GetMaxHealth() => m_type.maxHealth;	
+	public float GetDamage() => m_type.damage;
 }
