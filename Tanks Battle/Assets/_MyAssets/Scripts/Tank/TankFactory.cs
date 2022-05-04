@@ -8,8 +8,8 @@ public class TankFactory : MonoBehaviour
 	public TankView playerTankPrefab;
 	public Transform playerSpawn;
 	
-	[Header("Player")]
-	public TankView enemyTank;
+	[Header("Enemy")]
+	public EnemyView enemyTankPrefab;
 	public Transform[] enemySpawn;
 	private int m_currentSpawn = 0;
 
@@ -18,7 +18,10 @@ public class TankFactory : MonoBehaviour
 	private void Start()
 	{
 		SpawnPlayer();
-		//SpawnEnemy();
+		for (int i = 0; i < 3; i++)
+		{
+			SpawnEnemy();
+		}
 	}
 
 	private void SpawnPlayer()
@@ -28,9 +31,9 @@ public class TankFactory : MonoBehaviour
 	
 	public void SpawnEnemy()
 	{
-		new TankController(playerTankPrefab,
+		new EnemyController(enemyTankPrefab,
 			tankTypes[Random.Range(0,tankTypes.Count)],
-			enemySpawn[Random.Range(0,enemySpawn.Length)].position);
+			enemySpawn[m_currentSpawn].position);
 
 		m_currentSpawn = (m_currentSpawn + 1) % enemySpawn.Length;
 	}

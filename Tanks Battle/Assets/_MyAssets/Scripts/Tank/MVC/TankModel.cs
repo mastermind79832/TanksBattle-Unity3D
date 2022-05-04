@@ -2,7 +2,7 @@ using UnityEngine;
 public class TankModel 
 {
 	public TankTypeSO m_type;
-	public float currentHealth;
+	public float currentHealth; 
 
 	public TankModel(TankTypeSO typeSO)
 	{

@@ -1,18 +1,18 @@
 using System;
 using UnityEngine;
 
-public enum TankTypes
+public enum TANKTYPES
 {
-	Normal  = 0,
-    Heavy   = 1,
-    Light   = 2
+	NORMAL  = 0,
+    HEAVY   = 1,
+    LIGHT   = 2
 }
 
 [CreateAssetMenu(menuName = "Create Tank Type", fileName ="NewTankType")]
 public class TankTypeSO : ScriptableObject
 {
     [Header("Properties")]
-    public TankTypes tankType;
+    public TANKTYPES tankType;
     public float maxHealth;
 
     [Header("Movement")]

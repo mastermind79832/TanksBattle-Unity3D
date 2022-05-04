@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class TankController
 {
-	private readonly TankView m_View;
-	private readonly TankModel m_Model;
+	protected readonly TankView m_View;
+	protected readonly TankModel m_Model;
 
 	public TankController (TankView tankView, TankTypeSO typeSO, Vector3 spawnPoint)
 	{
@@ -16,14 +16,9 @@ public class TankController
 		m_View.SetMaterial(m_Model.GetColor());
 	}
 
-	public virtual void Movement(Vector3? direction)
-	{
-		m_View.GetRigidbody().rotation = Quaternion.LookRotation((Vector3)direction);
-		m_View.GetRigidbody().velocity = m_View.transform.forward * m_Model.GetSpeed();
-	}
-
 	public void FireBullet(float velocityMutiplier)
 	{
+		Mathf.Clamp(velocityMutiplier, 0.5f, 1f);
 		ShellScript shell = ShellFactory.Instance.CreateBullet(m_View.firePoint);
 		shell.maxDamage = m_Model.GetDamage();
 		shell.SetVelocity(velocityMutiplier);
@@ -40,4 +35,7 @@ public class TankController
 			m_View.PlayerDead();
 		}
 	}
+
+	public virtual void Movement(Vector3? direction) { }
+	public virtual void RunAI() { }
 }
