@@ -48,6 +48,14 @@ public class Shoot : TankState
 
 	private float CalculateVelocityFactor(float distance)
 	{
+		float bulletVelocity = CalculateVelocity(distance);
+		bulletVelocityFactor = bulletVelocity / maxBulletVelocity;
+		Debug.Log("FireFactor " + bulletVelocity);
+		return bulletVelocityFactor;
+	}
+
+	private float CalculateVelocity(float distance)
+	{
 		/* V0y = V0 * Sin(angle)
 		* V0x = V0 * Cos(angle)
 		* x = distance
@@ -73,14 +81,8 @@ public class Shoot : TankState
 		* V0 = sqrt((1/2)*9.8*distance^2 / ((height + tan(angle) * distance) * cos(angle)^2))
 		* factor = V0 / V0max
 		*/
-		float a = MathF.Pow(distance, 2);
-		float b = MathF.Pow(MathF.Cos(firePointAngle), 2);
-		float c = (firePointHeight + MathF.Tan(firePointAngle) * distance) * b;
-		//float bulletVelocity = MathF.Sqrt((float)((1 / 2) * 9.8 * MathF.Pow(distance,2) / ((firePointHeight + MathF.Tan(firePointAngle) * distance) * MathF.Pow(MathF.Cos(firePointAngle),2))));
-		float bulletVelocity = MathF.Sqrt(a/c);
-		bulletVelocityFactor = bulletVelocity / maxBulletVelocity;
-		Debug.Log("FireFactor " + bulletVelocity);
-		return bulletVelocityFactor;
+
+		return MathF.Sqrt((float)(MathF.Pow(distance, 2) / ((firePointHeight + MathF.Tan(firePointAngle) * distance) * MathF.Pow(MathF.Cos(firePointAngle), 2))));
 	}
 
 	public override void Exit()
