@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class TankView : MonoBehaviour, IDamageable
 {
     protected TankController m_controller;
-    protected Vector3? m_moveDirection;
+
 
     [Header("Explosion")]
     public ParticleSystem explosion;
@@ -32,7 +32,6 @@ public class TankView : MonoBehaviour, IDamageable
     }
 
     //Getter
-    public Vector3? GetMoveDirection() => m_moveDirection;
     public Rigidbody GetRigidbody() => rb;
 
     // Interface

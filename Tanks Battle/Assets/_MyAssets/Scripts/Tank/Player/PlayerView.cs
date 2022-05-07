@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class PlayerView :  TankView
 {
 	private static PlayerView _instance;
+	protected Vector3? m_moveDirection;
 	public static PlayerView Instance { get { return _instance; } }
 
 	private bool m_IsLoading;
@@ -22,6 +23,7 @@ public class PlayerView :  TankView
 			loader.gameObject.SetActive(value != 0.3f);
 		} 
 	}
+	public Vector3? GetMoveDirection() => m_moveDirection;
 
 	private void Awake()
 	{

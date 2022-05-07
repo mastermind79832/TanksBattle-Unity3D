@@ -1,12 +1,12 @@
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyView : TankView
 {
-	private void CalculateDirection()
+	private void Update()
 	{
-		m_moveDirection = Vector3.forward;
+		m_controller.RunAI();
 	}
-
 }
+

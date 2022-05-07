@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64202a9853c1fd34fb52b6dd762ea23c, type: 3}
   m_Name: LightType
   m_EditorClassIdentifier: 
-  tankType: 0
+  tankType: 2
   maxHealth: 8
   speed: 15
   damage: 15

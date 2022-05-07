@@ -15,7 +15,8 @@ public class PlayerController : TankController
 			return;
 
 		direction = RotateDirection(60 * 2, (Vector3)direction);
-		base.Movement(direction);
+		m_View.GetRigidbody().rotation = Quaternion.LookRotation((Vector3)direction);
+		m_View.GetRigidbody().velocity = m_View.transform.forward * m_Model.GetSpeed();
 	}
 
 	private Vector3 RotateDirection(float angle, Vector3 dir)
