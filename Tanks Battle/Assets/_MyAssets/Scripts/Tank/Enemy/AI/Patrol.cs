@@ -27,16 +27,18 @@ namespace TanksBattle.Tank
 		public override void Update()
 		{
 			if (player != null)
+			{
 				if (IsPlayerInChaseRange())
 				{
-					MoveToNextState();
+					MoveToChaseState();
 					return;
 				}
+			}
 
 			Patrolling();
 		}
 
-		private void MoveToNextState()
+		private void MoveToChaseState()
 		{
 			nextState = new Chase(enemy);
 			stage = EVENT.EXIT;

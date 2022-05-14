@@ -21,8 +21,7 @@ namespace TanksBattle.Tank
 		{
 			if (player == null)
 			{
-				nextState = new Idle(enemy);
-				stage = EVENT.EXIT;
+				MoveToIdleState();
 				return;
 			}
 
@@ -33,14 +32,19 @@ namespace TanksBattle.Tank
 
 			if (distance > 20)
 			{
-				nextState = new Idle(enemy);
-				stage = EVENT.EXIT;
+				MoveToIdleState();
 			}
 			else if (distance < 10)
 			{
 				nextState = new Shoot(enemy);
 				stage = EVENT.EXIT;
 			}
+		}
+
+		private void MoveToIdleState()
+		{
+			nextState = new Idle(enemy);
+			stage = EVENT.EXIT;
 		}
 
 		public override void Exit()

@@ -29,22 +29,43 @@ namespace TanksBattle.Tank
 
 		public override void Update()
 		{
-			float distance = Vector3.Distance(
-				enemy.GetPosition(), player.position);
-			if (distance > 15)
+			if (player == null)
+			{
+				MoveToIdleState();
+				return;
+			}
+			if (GetPlayerDistance() > 15)
 			{
 				nextState = new Chase(enemy);
 				stage = EVENT.EXIT;
 			}
 			else
 			{
-				timer += Time.deltaTime;
-				enemy.GetAgent().transform.LookAt(player.position);
-				if (timer >= fireRate)
-				{
-					enemy.FireShell(CalculateVelocityFactor(distance));
-					timer = 0;
-				}
+				Shooting(GetPlayerDistance());
+			}
+		}
+
+		private float GetPlayerDistance()
+		{
+			return Vector3.Distance(
+				enemy.GetPosition(), player.position);
+		}
+
+		private void MoveToIdleState()
+		{
+			nextState = new Idle(enemy);
+			stage = EVENT.EXIT;
+			return;
+		}
+
+		private void Shooting(float distance)
+		{
+			timer += Time.deltaTime;
+			enemy.GetAgent().transform.LookAt(player.position);
+			if (timer >= fireRate)
+			{
+				enemy.FireShell(CalculateVelocityFactor(distance));
+				timer = 0;
 			}
 		}
 

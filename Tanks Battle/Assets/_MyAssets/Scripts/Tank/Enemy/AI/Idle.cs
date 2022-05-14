@@ -18,24 +18,15 @@ namespace TanksBattle.Tank
 
 		public override void Update()
 		{
-			// If player in Range
-			// Chase
-			if (player != null)
+			if (IsPlayerInChaseRange())
 			{
-				float distance = Vector3.Distance(
-					enemy.GetPosition(),
-					player.position);
-				if (distance < 15)
-				{
-					nextState = new Chase(enemy);
-					stage = EVENT.EXIT;
-					return;
-				}
+				MoveToChaseState();
+				return;
 			}
-			// If enemy not in its original positon
-			// Go back to original position
-			if (Vector3.Distance(enemy.GetPosition(), enemy.spawnPoint) > 0.5)
+
+			if (IsEnemyAwayFromSpawn())
 			{
+				// Go back to original position
 				enemy.GetAgent().SetDestination(enemy.spawnPoint);
 			}
 			else
@@ -49,9 +40,28 @@ namespace TanksBattle.Tank
 			}
 		}
 
+		private void MoveToChaseState()
+		{
+			nextState = new Chase(enemy);
+			stage = EVENT.EXIT;
+		}
+		private bool IsPlayerInChaseRange()
+		{
+			if (player == null)
+				return false;
+			
+			float distance = Vector3.Distance(
+				enemy.GetPosition(),
+				player.position);
+			if (distance < 15)
+				return true;
+
+			return false;
+		}
+		private bool IsEnemyAwayFromSpawn() =>
+			Vector3.Distance(enemy.GetPosition(), enemy.spawnPoint) > 0.5;
 		public override void Exit()
 		{
-
 			base.Exit();
 		}
 	}
