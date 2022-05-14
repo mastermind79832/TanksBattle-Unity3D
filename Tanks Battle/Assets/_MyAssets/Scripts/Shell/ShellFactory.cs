@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShellFactory : MonoSingletonGeneric<ShellFactory>
+namespace TanksBattle.Shell
 {
-    public ShellScript shellPrefab;
-
-    public ShellScript CreateBullet(Transform exitPoint)
+	internal class ShellFactory : MonoBehaviour
 	{
-		ShellScript newShell = Instantiate(shellPrefab, exitPoint.transform.position, exitPoint.transform.rotation);
+		[SerializeField]
+		private ShellScript m_ShellPrefab;
 
-		return newShell;
+		public void CreateBullet(Transform exitPoint, float mutiplier, float damage)
+		{
+			ShellScript newShell = Instantiate(m_ShellPrefab, exitPoint.transform.position, exitPoint.transform.rotation);
+			newShell.SetVelocity(mutiplier);
+			newShell.maxDamage = damage;
+		}
 	}
 }

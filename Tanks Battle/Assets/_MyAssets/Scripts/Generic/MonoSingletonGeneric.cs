@@ -1,26 +1,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonoSingletonGeneric<T> : MonoBehaviour where T: MonoSingletonGeneric<T>
+namespace TanksBattle.Core.Generic
 {
-	private static T _instance;
-	public static T Instance { get { return _instance; } }
-
-	// Virtual Awake for Extendability
-	protected virtual void Awake()
+	public class MonoSingletonGeneric<T> : MonoBehaviour where T: MonoSingletonGeneric<T>
 	{
-		CreateInstance();
-	}
+		private static T _instance;
+		public static T Instance { get { return _instance; } }
 
-	private void CreateInstance()
-	{
-		if (_instance == null)
+		// Virtual Awake for Extendability
+		protected virtual void Awake()
 		{
-			_instance = (T)this;
+			CreateInstance();
 		}
-		else
+
+		private void CreateInstance()
 		{
-			Destroy(this);
+			if (_instance == null)
+			{
+				_instance = (T)this;
+			}
+			else
+			{
+				Destroy(this);
+			}
 		}
 	}
 }

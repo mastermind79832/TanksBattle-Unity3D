@@ -1,17 +1,21 @@
 using UnityEngine;
-public class TankModel 
+
+namespace TanksBattle.Tank.MVC
 {
-	public TankTypeSO m_type;
-	public float currentHealth; 
-
-	public TankModel(TankTypeSO typeSO)
+	public class TankModel
 	{
-		m_type = typeSO;
-		currentHealth = m_type.maxHealth;
-	}
+		public TankTypeSO m_type;
+		public float currentHealth;
 
-	public float GetSpeed() => m_type.speed;
-	public Material GetColor() => m_type.color;
-	public float GetMaxHealth() => m_type.maxHealth;	
-	public float GetDamage() => m_type.damage;
+		public TankModel(TankTypeSO typeSO)
+		{
+			m_type = typeSO;
+			currentHealth = m_type.maxHealth;
+		}
+
+		public float GetSpeed() => m_type.speed;
+		public Material GetColor() => m_type.color;
+		public float GetMaxHealth() => m_type.maxHealth;
+		public float GetDamage() => m_type.damage;
+	}
 }

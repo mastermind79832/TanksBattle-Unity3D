@@ -2,52 +2,67 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Idle : TankState
+namespace TanksBattle.Tank
 {
-	public Idle(EnemyController enemy) : base(enemy)
+	public class Idle : TankState
 	{
-		name = STATE.IDLE;
-	}
+		public Idle(EnemyController enemy) : base(enemy)
+		{
+			name = STATE.IDLE;
+		}
 
-	public override void Enter()
-	{
-		base.Enter();
-	}
+		public override void Enter()
+		{
+			base.Enter();
+		}
 
-	public override void Update()
-	{	
-		// If player in Range
-		// Chase
-		float distance = Vector3.Distance(
-			enemy.GetPosition(),
-			player.position);
-		if (distance < 15)
+		public override void Update()
+		{
+			if (IsPlayerInChaseRange())
+			{
+				MoveToChaseState();
+				return;
+			}
+
+			if (IsEnemyAwayFromSpawn())
+			{
+				// Go back to original position
+				enemy.GetAgent().SetDestination(enemy.spawnPoint);
+			}
+			else
+			{
+				// 10 in 5000 chance that enemy goes to Patrol state
+				if (Random.Range(0, 5000) < 10)
+				{
+					nextState = new Patrol(enemy);
+					stage = EVENT.EXIT;
+				}
+			}
+		}
+
+		private void MoveToChaseState()
 		{
 			nextState = new Chase(enemy);
 			stage = EVENT.EXIT;
-			return;
 		}
-
-		// If enemy not in its original positon
-		// Go back to original position
-		if (Vector3.Distance(enemy.GetPosition(), enemy.spawnPoint) > 0.5)
+		private bool IsPlayerInChaseRange()
 		{
-			enemy.GetAgent().SetDestination(enemy.spawnPoint);
-		}
-		else
-		{
-			// 10 in 5000 chance that enemy goes to Patrol state
-			if(Random.Range(0,5000) < 10)
-			{
-				nextState = new Patrol(enemy);
-				stage = EVENT.EXIT;
-			}
-		}
-	}
+			if (player == null)
+				return false;
+			
+			float distance = Vector3.Distance(
+				enemy.GetPosition(),
+				player.position);
+			if (distance < 15)
+				return true;
 
-	public override void Exit()
-	{
-		
-		base.Exit();
+			return false;
+		}
+		private bool IsEnemyAwayFromSpawn() =>
+			Vector3.Distance(enemy.GetPosition(), enemy.spawnPoint) > 0.5;
+		public override void Exit()
+		{
+			base.Exit();
+		}
 	}
 }

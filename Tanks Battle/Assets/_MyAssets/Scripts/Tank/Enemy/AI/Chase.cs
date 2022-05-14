@@ -3,39 +3,53 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Chase : TankState
+namespace TanksBattle.Tank
 {
-	public Chase(EnemyController enemy) : base(enemy)
+	public class Chase : TankState
 	{
-		name = STATE.CHASE;
-	}
+		public Chase(EnemyController enemy) : base(enemy)
+		{
+			name = STATE.CHASE;
+		}
 
-	public override void Enter()
-	{
-		base.Enter();
-	}
+		public override void Enter()
+		{
+			base.Enter();
+		}
 
-	public override void Update()
-	{
-		enemy.GetAgent().SetDestination(player.position);
+		public override void Update()
+		{
+			if (player == null)
+			{
+				MoveToIdleState();
+				return;
+			}
 
-		float distance = Vector3.Distance(
-			enemy.GetPosition(),player.position);
+			enemy.GetAgent().SetDestination(player.position);
 
-		if (distance > 20)
+			float distance = Vector3.Distance(
+				enemy.GetPosition(), player.position);
+
+			if (distance > 20)
+			{
+				MoveToIdleState();
+			}
+			else if (distance < 10)
+			{
+				nextState = new Shoot(enemy);
+				stage = EVENT.EXIT;
+			}
+		}
+
+		private void MoveToIdleState()
 		{
 			nextState = new Idle(enemy);
 			stage = EVENT.EXIT;
 		}
-		else if (distance < 10)
-		{
-			nextState = new Shoot(enemy);
-			stage = EVENT.EXIT;
-		}
-	}
 
-	public override void Exit()
-	{
-		base.Exit();
+		public override void Exit()
+		{
+			base.Exit();
+		}
 	}
 }

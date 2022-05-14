@@ -1,5 +1,7 @@
-
-public interface IDamageable 
+namespace TanksBattle.Core.Interface
 {
-	public void TakeDamage(float value);
+	public interface IDamageable
+	{
+		public void TakeDamage(float value);
+	}
 }
