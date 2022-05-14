@@ -2,52 +2,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Idle : TankState
+namespace TanksBattle.Tank
 {
-	public Idle(EnemyController enemy) : base(enemy)
+	public class Idle : TankState
 	{
-		name = STATE.IDLE;
-	}
-
-	public override void Enter()
-	{
-		base.Enter();
-	}
-
-	public override void Update()
-	{	
-		// If player in Range
-		// Chase
-		float distance = Vector3.Distance(
-			enemy.GetPosition(),
-			player.position);
-		if (distance < 15)
+		public Idle(EnemyController enemy) : base(enemy)
 		{
-			nextState = new Chase(enemy);
-			stage = EVENT.EXIT;
-			return;
+			name = STATE.IDLE;
 		}
 
-		// If enemy not in its original positon
-		// Go back to original position
-		if (Vector3.Distance(enemy.GetPosition(), enemy.spawnPoint) > 0.5)
+		public override void Enter()
 		{
-			enemy.GetAgent().SetDestination(enemy.spawnPoint);
+			base.Enter();
 		}
-		else
+
+		public override void Update()
 		{
-			// 10 in 5000 chance that enemy goes to Patrol state
-			if(Random.Range(0,5000) < 10)
+			// If player in Range
+			// Chase
+			if (player != null)
 			{
-				nextState = new Patrol(enemy);
-				stage = EVENT.EXIT;
+				float distance = Vector3.Distance(
+					enemy.GetPosition(),
+					player.position);
+				if (distance < 15)
+				{
+					nextState = new Chase(enemy);
+					stage = EVENT.EXIT;
+					return;
+				}
+			}
+			// If enemy not in its original positon
+			// Go back to original position
+			if (Vector3.Distance(enemy.GetPosition(), enemy.spawnPoint) > 0.5)
+			{
+				enemy.GetAgent().SetDestination(enemy.spawnPoint);
+			}
+			else
+			{
+				// 10 in 5000 chance that enemy goes to Patrol state
+				if (Random.Range(0, 5000) < 10)
+				{
+					nextState = new Patrol(enemy);
+					stage = EVENT.EXIT;
+				}
 			}
 		}
-	}
 
-	public override void Exit()
-	{
-		
-		base.Exit();
+		public override void Exit()
+		{
+
+			base.Exit();
+		}
 	}
 }

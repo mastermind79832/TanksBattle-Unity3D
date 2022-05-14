@@ -1,50 +1,71 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Patrol : TankState
+namespace TanksBattle.Tank
 {
-	private Vector3 patrolPoint1;
-	private Vector3 patrolPoint2;
-	private Vector3 currentPoint;
-
-	public Patrol(EnemyController enemy) : base(enemy)
+	public class Patrol : TankState
 	{
-		name = STATE.PATROL;
-	}
+		private Vector3 patrolPoint1;
+		private Vector3 patrolPoint2;
+		private Vector3 currentPoint;
 
-	public override void Enter()
-	{
-		patrolPoint1 = enemy.spawnPoint + enemy.GetAgent().transform.forward * 5;
-		patrolPoint2 = enemy.spawnPoint - enemy.GetAgent().transform.forward * 5;	
-		currentPoint = patrolPoint1;
-		base.Enter();
-	}
+		public Patrol(EnemyController enemy) : base(enemy)
+		{
+			name = STATE.PATROL;
+		}
 
-	public override void Update()
-	{
-		// Is player in Range
-		float distance = Vector3.Distance(
-			enemy.GetPosition(),
-			player.position);
-		if (distance < 15)
+		public override void Enter()
+		{
+			patrolPoint1 = enemy.spawnPoint + enemy.GetAgent().transform.forward * 5;
+			patrolPoint2 = enemy.spawnPoint - enemy.GetAgent().transform.forward * 5;
+			currentPoint = patrolPoint1;
+			base.Enter();
+		}
+
+		public override void Update()
+		{
+			if (player != null)
+				if (IsPlayerInChaseRange())
+				{
+					MoveToNextState();
+					return;
+				}
+
+			Patrolling();
+		}
+
+		private void MoveToNextState()
 		{
 			nextState = new Chase(enemy);
 			stage = EVENT.EXIT;
-			return;
 		}
 
-		enemy.GetAgent().SetDestination(currentPoint);
-		if (Vector3.Distance(enemy.GetPosition(), patrolPoint1) < 0.5)
-			currentPoint = patrolPoint2;
+		private bool IsPlayerInChaseRange()
+		{
+			float distance = Vector3.Distance(
+					enemy.GetPosition(),
+					player.position);
+			if (distance < 15)
+				return true;
 
-		if (Vector3.Distance(enemy.GetPosition(), patrolPoint2) < 0.5)
-			currentPoint = patrolPoint1;
-	}
+			return false;
+		}
 
-	public override void Exit()
-	{
+		private void Patrolling()
+		{
+			enemy.GetAgent().SetDestination(currentPoint);
+			if (Vector3.Distance(enemy.GetPosition(), patrolPoint1) < 0.5)
+				currentPoint = patrolPoint2;
 
-		base.Exit();
+			if (Vector3.Distance(enemy.GetPosition(), patrolPoint2) < 0.5)
+				currentPoint = patrolPoint1;
+		}
+
+		public override void Exit()
+		{
+			base.Exit();
+		}
 	}
 }
