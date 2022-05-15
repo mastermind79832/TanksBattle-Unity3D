@@ -44,7 +44,7 @@ namespace TanksBattle.Service
 					achHeading = "Shell Shooter Novice";
 					achSubText = "Shoot 10 Shells";
 					break;
-				case 25:achievementName += "20";
+				case 20:achievementName += "20";
 					achHeading = "Shell Shooter Pro";
 					achSubText = "Shoot 20 Shells";
 					break;
