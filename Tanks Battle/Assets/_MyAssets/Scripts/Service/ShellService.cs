@@ -10,7 +10,13 @@ namespace TanksBattle.Service.Shell
 		[SerializeField]
 		private ShellFactory ShellFactory;
 
-		public void ShellFired(Transform exitPoint,float mutiplier, float damage) => 
-			ShellFactory.CreateBullet(exitPoint,mutiplier,damage);
+		private int ShellFiredCount = 0;
+
+		public void ShellFired(Transform exitPoint, float mutiplier, float damage)
+		{
+			ShellFactory.CreateBullet(exitPoint, mutiplier, damage);
+			ShellFiredCount++;
+			ServiceEvents.Instance.OnShellFired?.Invoke(ShellFiredCount);
+		}
 	}
 }

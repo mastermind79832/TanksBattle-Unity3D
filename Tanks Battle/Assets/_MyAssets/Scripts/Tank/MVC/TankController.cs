@@ -33,7 +33,7 @@ namespace TanksBattle.Tank.MVC
 
 			if (m_Model.currentHealth <= 0)
 			{
-				m_View.PlayerDead();
+				m_View.TankDeath();
 			}
 		}
 
