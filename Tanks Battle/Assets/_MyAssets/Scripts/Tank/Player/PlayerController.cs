@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TanksBattle.Tank.MVC;
-using TanksBattle.Service;
+using TanksBattle.Service.Shell;
 
 namespace TanksBattle.Tank
 {
@@ -16,7 +16,7 @@ namespace TanksBattle.Tank
 		public override void FireShell(float velocityMutiplier)
 		{
 			base.FireShell(velocityMutiplier);
-			ServiceEvents.Instance.PlayerFiredShell();
+			ShellService.Instance.PlayerFiredShell();
 		}
 
 		public override void Movement(Vector3? direction)
