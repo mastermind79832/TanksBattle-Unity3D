@@ -19,7 +19,7 @@ namespace TanksBattle.Tank.MVC
 			m_View.SetMaterial(m_Model.GetColor());
 		}
 
-		public void FireShell(float velocityMutiplier)
+		public virtual void FireShell(float velocityMutiplier)
 		{
 			Mathf.Clamp(velocityMutiplier, 0.5f, 1f);
 			TankService.Instance.ShellFired(m_View.firePoint, velocityMutiplier, m_Model.GetDamage());

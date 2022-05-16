@@ -11,7 +11,7 @@ namespace TanksBattle.Service.Shell
 		private ShellFactory shellFactory;
 
 		private ObjectPool<ShellScript> shellPool;
-		private int shellFiredCount = 0;
+		private int playerShellFiredCount = 0;
 
 		private void Start()
 		{
@@ -28,9 +28,12 @@ namespace TanksBattle.Service.Shell
 			}
 
 			shell.SetShellProperties(exitPoint, mutiplier, damage);
+		}
 
-			shellFiredCount++;
-			ServiceEvents.Instance.OnShellFired?.Invoke(shellFiredCount);
+		public void PlayerFiredShell()
+		{
+			playerShellFiredCount++;
+			ServiceEvents.Instance.OnShellFired?.Invoke(playerShellFiredCount);
 		}
 
 		internal void FreeShell(ShellScript shell)
