@@ -8,15 +8,37 @@ namespace TanksBattle.Service.Shell
 	public class ShellService : MonoSingletonGeneric<ShellService>
 	{
 		[SerializeField]
-		private ShellFactory ShellFactory;
+		private ShellFactory shellFactory;
 
-		private int ShellFiredCount = 0;
+		private ObjectPool<ShellScript> shellPool;
+		private int playerShellFiredCount = 0;
+
+		private void Start()
+		{
+			shellPool = new ObjectPool<ShellScript>();
+		}
 
 		public void ShellFired(Transform exitPoint, float mutiplier, float damage)
 		{
-			ShellFactory.CreateBullet(exitPoint, mutiplier, damage);
-			ShellFiredCount++;
-			ServiceEvents.Instance.OnShellFired?.Invoke(ShellFiredCount);
+			ShellScript shell = shellPool.GetItem();
+			if(shell == default(ShellScript))
+			{
+				shell = shellFactory.CreateBullet();
+				shellPool.NewItem(shell);
+			}
+
+			shell.SetShellProperties(exitPoint, mutiplier, damage);
+		}
+
+		public void PlayerFiredShell()
+		{
+			playerShellFiredCount++;
+			ServiceEvents.Instance.OnShellFired?.Invoke(playerShellFiredCount);
+		}
+
+		internal void FreeShell(ShellScript shell)
+		{
+			shellPool.FreeItem(shell);
 		}
 	}
 }

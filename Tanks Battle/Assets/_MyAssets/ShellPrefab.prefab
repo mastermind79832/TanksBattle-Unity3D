@@ -132,6 +132,8 @@ MonoBehaviour:
   explosion: {fileID: 2185634519216740857}
   source: {fileID: 1032480985}
   shellBody: {fileID: 122702627824362091}
+  shellMesh: {fileID: 2298808748057670634}
+  shellCollider: {fileID: 122702627824362090}
   maxVelocity: 20
   shellLifeTime: 5
   explosionRadius: 5
