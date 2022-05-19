@@ -11,8 +11,11 @@ namespace TanksBattle.Service.Tank
 		[SerializeField]
 		private TankFactory tankFactory;
 
+		private int enemyDeathCount = 0;
+	
 		public GameObject Player { get; private set; }
 		public List<GameObject> Enemy { get; private set; }
+
 		private void Start()
 		{
 			Enemy = new List<GameObject>();
@@ -32,5 +35,11 @@ namespace TanksBattle.Service.Tank
 		// Shell calls
 		public void ShellFired(Transform firePoint, float mutiplier, float damage) =>
 			Shell.ShellService.Instance.ShellFired(firePoint, mutiplier, damage);
+
+		public void EnemyDeath()
+		{
+			enemyDeathCount++;
+			ServiceEvents.Instance.OnEnemyDeath?.Invoke(enemyDeathCount);
+		}
 	}
 }

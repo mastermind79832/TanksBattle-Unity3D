@@ -40,7 +40,7 @@ namespace TanksBattle.Tank.MVC
         // Interface
         public void TakeDamage(float value) => m_controller.TakeDamage(value);
 
-        public void PlayerDead()
+        public virtual void TankDeath()
         {
             explosion.transform.SetParent(null);
             explosion.Play();

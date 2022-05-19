@@ -9,11 +9,10 @@ namespace TanksBattle.Shell
 		[SerializeField]
 		private ShellScript m_ShellPrefab;
 
-		public void CreateBullet(Transform exitPoint, float mutiplier, float damage)
+		public ShellScript CreateBullet()
 		{
-			ShellScript newShell = Instantiate(m_ShellPrefab, exitPoint.transform.position, exitPoint.transform.rotation);
-			newShell.SetVelocity(mutiplier);
-			newShell.maxDamage = damage;
+			return Instantiate(m_ShellPrefab);
 		}
+	
 	}
 }

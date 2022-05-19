@@ -33,7 +33,8 @@ namespace TanksBattle.Tank
 		{
 			this.enemy = enemy;
 			stage = EVENT.ENTER;
-			player = TankService.Instance.Player.transform;
+			if(TankService.Instance.Player != null)
+				player = TankService.Instance.Player.transform;
 		}
 
 		public virtual void Enter() { stage = EVENT.UPDATE; }
