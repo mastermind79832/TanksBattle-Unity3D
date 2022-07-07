@@ -7,6 +7,7 @@
  - Dynamic shooting for player.
  - AI enemy with idle, partol, chase and shoot states.
  - Accurate enemy aiming system.
+ - Achievement system
  
  # Design patterns
 - Singleton
